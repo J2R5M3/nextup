@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nextup_api',
-    'nextup_site'
+    'nextup.nextup_api',
+    'nextup.nextup_site'
 ]
 
 MIDDLEWARE = [
