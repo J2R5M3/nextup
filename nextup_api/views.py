@@ -4,6 +4,7 @@ https://realpython.com/django-rest-framework-quick-start/#restful-structure
 '''
 
 
+'''
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
@@ -36,3 +37,15 @@ def post_element(request, pk):
     if request.method == 'GET':
         serializer = PostSerializer(post)
         return Response(serializer.data)
+'''
+
+
+
+from rest_framework import viewsets
+
+from .serializers import MediaSerializer
+from .models import Media
+
+class MediaViewSet(viewsets.ModelViewSet):
+    queryset = Media.objects.all().order_by('title')
+    serializer_class = MediaSerializer
