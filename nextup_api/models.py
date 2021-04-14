@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Media(models.Model):
-    m_id = models.IntegerField()
+    m_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     genre = models.CharField(max_length=20)
     release_date = models.DateField()
