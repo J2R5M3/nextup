@@ -4,7 +4,7 @@
       <input type="text" id="rating" name="rating"><br><br>
       <label for="comment">Comment:</label><br>
       <input type="text" id="comment" name="comment"><br><br>
-    <router-link to="suggestions" v-if="$route.path != '/suggestions'">
+    <router-link to="inroom" v-if="$route.path != '/inroom'">
         <button
          class="btn btn-primary btn-margin"
          v-if="!authenticated"
