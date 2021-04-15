@@ -11,12 +11,14 @@
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
     </form>
+     <router-link to='room' v-if="$route.path != '/room'">
      <button
       class="btn btn-primary btn-margin"
       v-if="!authenticated"
       @click="navigate()">
       Join
     </button>
+     </router-link>
   </div>
 </template>
 
@@ -32,7 +34,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #0856ff;
+  margin-top: 70px;
 }
 </style>

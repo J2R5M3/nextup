@@ -3,13 +3,15 @@
     <h1>
     Nextup!
     </h1>
-     <button
+    <router-link to='login' v-if="$route.path != '/login'">
+      <button
       class="btn btn-primary btn-margin"
       v-if="!authenticated"
       @click="navigate()">
       Log In
     </button>
-    <router-link to="createaccount">
+    </router-link>
+    <router-link to="createaccount" v-if="$route.path != ('/createaccount')">
       <button
       class="btn btn-primary btn-margin"
       v-if="!authenticated"
@@ -20,12 +22,6 @@
     <router-view/>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'App'
-}
-</script>
 
 <style>
 #app {
