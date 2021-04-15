@@ -17,6 +17,14 @@
         Login
        </button>
      </router-link>
+     <router-link to='admin' v-if="$route.path != '/admin'">
+       <button
+        class="btn btn-primary btn-margin"
+        v-if="!authenticated"
+        @click="navigate()">
+        Admin
+       </button>
+     </router-link>
   </div>
 </template>
 
