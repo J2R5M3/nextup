@@ -1,3 +1,4 @@
+import json
 import time
 
 import requests
@@ -46,6 +47,35 @@ class RoomMemberViewSet(viewsets.ModelViewSet):
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=404)
+
+class ResultsViewSet(viewsets.ViewSet):
+    # Sorts all media based off how many users in that room liked it
+    # minus the amount that disliked it
+
+    def retrieve(self, request, pk):
+        # Get the room
+        count = {}
+        room = Room.objects.filter(roomId = pk)
+        for member in RoomMember.objects.filter(roomId = room[0]).iterator():
+            user = member.userId
+            # Iterate over users in that room
+            for response in Response.objects.filter(userId = user).iterator():
+                # Iterate over responses by those users
+                inc = 1 if response.isLike else -1
+                # Note that .mediaId is actually the Media object, not the id
+                if response.mediaId in count:
+                    count[response.mediaId] += inc
+                else:
+                    count[response.mediaId] = inc
+
+        top3 = list(sorted(count.items(), key=lambda x: x[1], reverse=True))[:3]
+        datalist = []
+        for media, count in top3:
+            data = MediaSerializer(media).data
+            data['likeCount'] = count
+            datalist.append(data)
+    
+        return HttpResponse(json.dumps({'top3':datalist}, indent=4), status=200)
     
 
 @api_view(['POST', 'DELETE'])
@@ -146,8 +176,10 @@ def room(request):
 
 @api_view(['POST', 'DELETE'])
 def user(request):
-    request['title']
     if request.method == 'POST':
         entry = User(userId = request['userId'],
                      name = request['name'])
         entry.save()
+
+def results(request, *args, **kwargs):
+    pass

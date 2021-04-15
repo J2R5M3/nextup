@@ -64,7 +64,7 @@ class RoomMember(models.Model):
     userId = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
-        return 'room%suser%s'%(self.roomId.roomId, self.userId.userId)
+        return str(self.roomId.roomId)
 
 
 class Review(models.Model):
@@ -90,7 +90,7 @@ class Last_Showed(models.Model):
     time = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.mediaId
+        return self.mediaId.mediaId
 
 
 class Suggested(models.Model):
@@ -99,7 +99,7 @@ class Suggested(models.Model):
     time = models.IntegerField()
 
     def __str__(self):
-        return self.mediaId
+        return self.mediaId.mediaId
 
 
 

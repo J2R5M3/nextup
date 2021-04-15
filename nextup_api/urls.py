@@ -10,6 +10,7 @@ router.register('response', views.ResponseViewSet)
 router.register('review', views.ReviewViewSet)
 router.register('blacklist', views.BlacklistViewSet)
 router.register('join', views.RoomMemberViewSet)
+router.register('results', views.ResultsViewSet, basename='results')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -17,9 +18,9 @@ urlpatterns = [
     path('join/', views.join),
     path('media/', views.media),
     path('response/', views.response),
-    #path('results/', views.results),
     path('review/', views.review),
     path('room/', views.room),
     path('user/', views.user),
+    path('results/', views.results),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
