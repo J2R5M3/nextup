@@ -1,47 +1,8 @@
-'''
-Code taken from here:
-https://realpython.com/django-rest-framework-quick-start/#restful-structure
-
-
-
-
-from django.shortcuts import render
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from talk.models import Post
-from talk.serializers import PostSerializer
-from talk.forms import PostForm
-
-
-def home(request):
-    tmpl_vars = {'form': PostForm()}
-    return render(request, 'talk/index.html', tmpl_vars)
-
-
-@api_view(['GET'])
-def post_collection(request):
-    if request.method == 'GET':
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-
-@api_view(['GET'])
-def post_element(request, pk):
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = PostSerializer(post)
-        return Response(serializer.data)
-'''
-
 import time
 
 import requests
+
+from django.http import HttpResponse
 
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -77,6 +38,15 @@ class BlacklistViewSet(viewsets.ModelViewSet):
 class RoomMemberViewSet(viewsets.ModelViewSet):
     queryset = RoomMember.objects.all().order_by('userId')
     serializer_class = RoomMemberSerializer
+    
+    def destroy(self, request, *args, **kwargs):
+        entry = RoomMember.objects.filter(userId = kwargs['pk'])
+        if entry:
+            entry.delete()
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=404)
+    
 
 @api_view(['POST', 'DELETE'])
 def blacklist(request):
@@ -86,19 +56,12 @@ def blacklist(request):
                             time = request['time'])
         entry.save()
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 def join(request):
     if request.method == 'POST':
         entry = RoomMember(userId = request['userId'],
                            roomId = request['roomId'])
         entry.save()
-
-@api_view(['POST'])
-def leave(request):
-    if request.method == 'POST':
-        entry = RoomMember.objects.filter(userId = request['userId'],
-                                          roomId = request['roomId'])
-        entry.delete()
 
 @api_view(['POST', 'PUT', 'DELETE'])
 def media(request):

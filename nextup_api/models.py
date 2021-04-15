@@ -60,10 +60,11 @@ class Room(models.Model):
 
 
 class RoomMember(models.Model):
-    userId = models.ForeignKey(User, on_delete = models.CASCADE)
     roomId = models.ForeignKey(Room, on_delete = models.CASCADE)
+    userId = models.ForeignKey(User, on_delete = models.CASCADE)
 
-
+    def __str__(self):
+        return 'room%suser%s'%(self.roomId.roomId, self.userId.userId)
 
 
 class Review(models.Model):
